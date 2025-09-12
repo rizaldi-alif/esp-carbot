@@ -5,6 +5,8 @@ MotorDriver::MotorDriver(int pin1, int pin2, int enablePin, int ch, int freq, in
 
 void MotorDriver::begin()
 {
+    pinMode(_pin1, OUTPUT);
+    pinMode(_pin2, OUTPUT);
     ledcSetup(_ch, _freq, _resolution);
     ledcAttachPin(_enablePin, _ch);
     stop();
