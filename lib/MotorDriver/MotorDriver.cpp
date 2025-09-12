@@ -1,31 +1,34 @@
 #include "MotorDriver.h"
 
-MotorDriver::MotorDriver(int pin1, int pin2, int ch1, int ch2, int freq, int resolution)
-    : _pin1(pin1), _pin2(pin2), _ch1(ch1), _ch2(ch2), _freq(freq), _resolution(resolution) {}
+MotorDriver::MotorDriver(int pin1, int pin2, int enablePin, int ch, int freq, int resolution)
+    : _pin1(pin1), _pin2(pin2), _enablePin(enablePin), _ch(ch), _freq(freq), _resolution(resolution) {}
 
 void MotorDriver::begin()
 {
-    ledcSetup(_ch1, _freq, _resolution);
-    ledcSetup(_ch2, _freq, _resolution);
-    ledcAttachPin(_pin1, _ch1);
-    ledcAttachPin(_pin2, _ch2);
+    ledcSetup(_ch, _freq, _resolution);
+    ledcAttachPin(_enablePin, _ch);
     stop();
 }
 
-void MotorDriver::forward(int pwm)
+void MotorDriver::forward()
 {
-    ledcWrite(_ch1, pwm);
-    ledcWrite(_ch2, 0);
+    digitalWrite(_pin1, HIGH);
+    digitalWrite(_pin2, LOW);
 }
 
-void MotorDriver::backward(int pwm)
+void MotorDriver::backward()
 {
-    ledcWrite(_ch1, 0);
-    ledcWrite(_ch2, pwm);
+    digitalWrite(_pin1, LOW);
+    digitalWrite(_pin2, HIGH);
 }
 
 void MotorDriver::stop()
 {
-    ledcWrite(_ch1, 0);
-    ledcWrite(_ch2, 0);
+    digitalWrite(_pin1, LOW);
+    digitalWrite(_pin2, LOW);
+}
+
+void MotorDriver::drive(int pwm)
+{
+    ledcWrite(_ch, pwm);
 }

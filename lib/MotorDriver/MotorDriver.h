@@ -6,15 +6,17 @@
 class MotorDriver
 {
 public:
-    MotorDriver(int pin1, int pin2, int ch1, int ch2, int freq = 5000, int resolution = 8);
+    MotorDriver(int pin1, int pin2, int enablePin, int ch, int freq = 5000, int resolution = 8);
     void begin();
-    void forward(int pwm);
-    void backward(int pwm);
+    void forward();
+    void backward();
+    void drive(int pwm);
     void stop();
 
 private:
     int _pin1, _pin2;
-    int _ch1, _ch2;
+    int _enablePin;
+    int _ch;
     int _freq, _resolution;
 };
 

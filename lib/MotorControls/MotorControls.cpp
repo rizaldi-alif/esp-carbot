@@ -37,16 +37,31 @@ void MotorControls::update()
 
     // Apply to hardware
     if (_currentRightSpeed > 0)
-        _rightMotor.forward(calculatePwm(_currentRightSpeed));
+    {
+        _rightMotor.forward();
+    }
     else if (_currentRightSpeed < 0)
-        _rightMotor.backward(calculatePwm(_currentRightSpeed));
+    {
+        _rightMotor.backward();
+    }
     else
+    {
         _rightMotor.stop();
+    }
 
     if (_currentLeftSpeed > 0)
-        _leftMotor.forward(calculatePwm(_currentLeftSpeed));
+    {
+        _leftMotor.forward();
+    }
     else if (_currentLeftSpeed < 0)
-        _leftMotor.backward(calculatePwm(_currentLeftSpeed));
+    {
+        _leftMotor.backward();
+    }
     else
+    {
         _leftMotor.stop();
+    }
+
+    _rightMotor.drive(calculatePwm(_currentRightSpeed));
+    _leftMotor.drive(calculatePwm(_currentLeftSpeed));
 }

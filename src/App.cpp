@@ -2,14 +2,14 @@
 #include <SPIFFS.h>
 
 App::App()
-    : rightMotor(16, 17, 3, 4),
-      leftMotor(26, 27, 5, 6),
+    : rightMotor(16, 17, 22, 5),
+      leftMotor(18, 19, 23, 6),
       motorControls(rightMotor, leftMotor),
       webServerManager(motorControls),
-      sensorManager(22, 23),
-      alarmManager(18, 2),
+      sensorManager(25, 26),
+      alarmManager(27, 2),
       lastSensorTime(0),
-      sensorDelay(60), ssid("esp32_dev_2"), pass("password") {}
+      sensorDelay(60), ssid("esp32_dev2.1"), pass("12345678") {}
 
 void App::setup()
 {
@@ -31,10 +31,22 @@ void App::setup()
     leftMotor.begin();
 
     digitalWrite(2, HIGH);
-    tone(18, 5000);
+    tone(27, 5000);
     delay(1000);
     digitalWrite(2, LOW);
-    noTone(18);
+    noTone(27);
+    delay(200);
+    digitalWrite(2, HIGH);
+    tone(27, 5000);
+    delay(200);
+    digitalWrite(2, LOW);
+    noTone(27);
+    delay(200);
+    digitalWrite(2, HIGH);
+    tone(27, 5000);
+    delay(200);
+    digitalWrite(2, LOW);
+    noTone(27);
 
     Serial.println("Setup complete");
 }
