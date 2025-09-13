@@ -9,7 +9,7 @@ App::App()
       sensorManager(25, 26),
       alarmManager(27, 2),
       lastSensorTime(0),
-      sensorDelay(60), ssid("esp32_dev2.1"), pass("12345678") {}
+      sensorDelay(60), ssid("esp32_r-2.0"), pass("12345678") {}
 
 void App::setup()
 {

@@ -9,6 +9,7 @@ void MotorDriver::begin()
     pinMode(_pin2, OUTPUT);
     ledcSetup(_ch, _freq, _resolution);
     ledcAttachPin(_enablePin, _ch);
+    Serial.printf("MotorDriver initialized on pins %d, %d with enable pin %d on channel %d\n", _pin1, _pin2, _enablePin, _ch);
     stop();
 }
 
