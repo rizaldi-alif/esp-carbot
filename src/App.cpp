@@ -9,7 +9,7 @@ App::App()
       sensorManager(25, 26),
       alarmManager(27, 2),
       lastSensorTime(0),
-      sensorDelay(60), ssid("esp32_dev2.1"), pass("12345678") {}
+      sensorDelay(60), ssid("Dor Bot V-2.1"), pass("12345678") {}
 
 void App::setup()
 {
@@ -35,16 +35,16 @@ void App::setup()
     delay(1000);
     digitalWrite(2, LOW);
     noTone(27);
-    delay(200);
+    delay(100);
     digitalWrite(2, HIGH);
     tone(27, 5000);
-    delay(200);
+    delay(100);
     digitalWrite(2, LOW);
     noTone(27);
-    delay(200);
+    delay(100);
     digitalWrite(2, HIGH);
     tone(27, 5000);
-    delay(200);
+    delay(100);
     digitalWrite(2, LOW);
     noTone(27);
 

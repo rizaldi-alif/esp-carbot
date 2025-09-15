@@ -2,15 +2,17 @@
 
 MotorControls::MotorControls(MotorDriver &rightMotor, MotorDriver &leftMotor)
     : _rightMotor(rightMotor), _leftMotor(leftMotor),
-      _maxSpeed(100), _rangePwm(162), _minPwm(93),
+      _maxSpeed(100), _rangePwm(0), _minPwm(500),
       _currentRightSpeed(0), _currentLeftSpeed(0),
       _targetRightSpeed(0), _targetLeftSpeed(0),
-      _rampStep(5) {}
+      _rampStep(5) {
+        _rangePwm = (1 << 10) - 1 - _minPwm; // Assuming 10-bit resolution
+      }
 
 int MotorControls::calculatePwm(int speed) const
 {
     speed = abs(speed);
-    speed = constrain(speed, 0, _maxSpeed);
+    speed = constrain(speed, 0, _maxSpeed); 
     float ratio = (float)speed / _maxSpeed;
     return (int)(_rangePwm * ratio + _minPwm);
 }
