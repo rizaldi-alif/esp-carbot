@@ -6,7 +6,7 @@
 class MotorDriver
 {
 public:
-    MotorDriver(int pin1, int pin2, int enablePin, int ch, int freq = 5000, int resolution = 8);
+    MotorDriver(int pin1, int pin2, int enablePin, int ch, int freq = 5000, int resolution = 10);
     void begin();
     void forward();
     void backward();
