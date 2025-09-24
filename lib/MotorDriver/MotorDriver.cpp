@@ -38,5 +38,4 @@ void MotorDriver::drive(int pwm)
     pwm = abs(pwm);
     pwm = constrain(pwm, 0, 1023);
     ledcWrite(_ch, pwm);
-    Serial.printf("Driving motor on channel %d with PWM %d\n", _ch, pwm);
 }

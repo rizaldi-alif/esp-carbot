@@ -1,7 +1,7 @@
 #pragma once
 #include <WiFi.h>
 
-class WiFiManager
+class WifiManager
 {
 public:
     void begin(const char *ssid, const char *pass);

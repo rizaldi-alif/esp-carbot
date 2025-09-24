@@ -5,11 +5,12 @@ App::App()
     : rightMotor(16, 17, 22, 5),
       leftMotor(18, 19, 23, 6),
       motorControls(rightMotor, leftMotor),
-      webServerManager(motorControls),
-      sensorManager(25, 26),
+      sensorManager(25, 26, 35, 34),
+      modeSelection(sensorManager, motorControls),
+      webServerManager(motorControls, modeSelection),
       alarmManager(27, 2),
       lastSensorTime(0),
-      sensorDelay(60), ssid("Dor Bot V-2.1"), pass("12345678") {}
+      sensorDelay(60), ssid("Dev-v3.0"), pass("12345678") {}
 
 void App::setup()
 {
@@ -25,7 +26,7 @@ void App::setup()
 
     wifiManager.begin(ssid, pass);
     webServerManager.begin();
-    webServerManager.sendSSID(ssid);
+    sensorManager.begin();
 
     rightMotor.begin();
     leftMotor.begin();
@@ -57,10 +58,10 @@ void App::loop()
     {
         lastSensorTime = millis();
         int distance = sensorManager.readDistance();
-        webServerManager.sendDistance(distance);
-        alarmManager.loop(distance > 0 && distance < 20);
+        alarmManager.loop(distance > 0 && distance < 40);
     }
 
     motorControls.update();
     webServerManager.loop();
+    modeSelection.loop();
 }
