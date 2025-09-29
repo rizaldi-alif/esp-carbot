@@ -5,7 +5,7 @@ class SensorManager
 {
 public:
     SensorManager(int trigPin, int echoPin, int leftIR, int rightIR);
-    void begin();
+    void setup();
     int readDistance();
     int readLeftIR();
     int readRightIR();

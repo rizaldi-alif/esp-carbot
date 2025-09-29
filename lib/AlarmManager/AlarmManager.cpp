@@ -2,6 +2,9 @@
 
 AlarmManager::AlarmManager(int buzzerPin, int ledPin)
     : buzzerPin(buzzerPin), ledPin(ledPin), lastAlarmTime(0), alarmDelay(200) {
+}
+
+void AlarmManager::setup() {
     pinMode(buzzerPin, OUTPUT);
     pinMode(ledPin, OUTPUT);
 }

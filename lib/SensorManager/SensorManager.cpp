@@ -5,7 +5,7 @@
 SensorManager::SensorManager(int trigPin, int echoPin, int leftIR, int rightIR)
     : ultrasonic(trigPin, echoPin), distIndex(0), medianIndex(0), leftIRPin(leftIR), rightIRPin(rightIR) {}
 
-void SensorManager::begin()
+void SensorManager::setup()
 {
     pinMode(leftIRPin, INPUT);
     pinMode(rightIRPin, INPUT);

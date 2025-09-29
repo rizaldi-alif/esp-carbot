@@ -8,7 +8,7 @@ class WebServerManager
 {
 public:
     WebServerManager(MotorControls &motorControls, ModeSelection &modeSelection);
-    void begin();
+    void setup();
     void loop();
 
 private:

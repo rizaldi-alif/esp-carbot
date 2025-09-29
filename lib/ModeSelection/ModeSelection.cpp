@@ -12,25 +12,26 @@ void ModeSelection::obstacleAvoidence()
     int dist = sensors.readDistance();
     int leftIR = sensors.readLeftIR();
     int rightIR = sensors.readRightIR();
+    int turnSpeed = _baseSpeed / 2;
     if (dist > 30 && rightIR != LOW && leftIR != LOW)
     {
         motorControls.setSpeed(_baseSpeed, _baseSpeed);
     }
     else if (dist > 30 && rightIR != LOW && leftIR == LOW)
     {
-        motorControls.setSpeed(_baseSpeed / 2, _baseSpeed);
+        motorControls.setSpeed(turnSpeed, _baseSpeed);
     }
     else if (dist > 30 && rightIR == LOW && leftIR != LOW)
     {
-        motorControls.setSpeed(_baseSpeed, _baseSpeed / 2);
+        motorControls.setSpeed(_baseSpeed, turnSpeed);
     }
     else if (dist <= 30 && rightIR != LOW && leftIR == LOW)
     {
-        motorControls.setSpeed(_baseSpeed / 2, _baseSpeed);
+        motorControls.setSpeed(turnSpeed, _baseSpeed);
     }
     else if (dist <= 30 && rightIR == LOW && leftIR != LOW)
     {
-        motorControls.setSpeed(_baseSpeed, _baseSpeed / 2);
+        motorControls.setSpeed(_baseSpeed, turnSpeed);
     }
     else if (dist <= 30 && rightIR == LOW && leftIR == LOW)
     {
@@ -38,20 +39,35 @@ void ModeSelection::obstacleAvoidence()
         delayMicroseconds(10);
         motorControls.setSpeed(-_baseSpeed, -_baseSpeed);
     }
-    else
-    {
-        motorControls.setSpeed(0, 0);
-    }
 }
 
 void ModeSelection::humanFollowing()
 {
     int dist = sensors.readDistance();
-    if (dist > 30 && dist < 100)
+    int leftIR = sensors.readLeftIR();
+    int rightIR = sensors.readRightIR();
+    int turnSpeed = _baseSpeed / 2;
+    if (dist > 30 && dist < 60 && leftIR != LOW && rightIR != LOW)
     {
         motorControls.setSpeed(_baseSpeed, _baseSpeed);
     }
+    else if (dist > 30 && dist < 60 && leftIR == LOW && rightIR != LOW || leftIR == LOW && rightIR != LOW)
+    {
+        motorControls.setSpeed(_baseSpeed, turnSpeed);
+    }
+    else if (dist > 30 && dist < 60 && leftIR != LOW && rightIR == LOW || leftIR != LOW && rightIR == LOW)
+    {
+        motorControls.setSpeed(turnSpeed, _baseSpeed);
+    }
+    else if (dist > 30 && dist < 60 && leftIR == LOW && rightIR == LOW)
+    {
+        motorControls.setSpeed(turnSpeed, _baseSpeed);
+    }
     else if (dist <= 30)
+    {
+        motorControls.setSpeed(0, 0);
+    }
+    else if (dist > 60)
     {
         motorControls.setSpeed(0, 0);
     }

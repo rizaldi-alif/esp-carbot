@@ -4,5 +4,5 @@
 class WifiManager
 {
 public:
-    void begin(const char *ssid, const char *pass);
+    void setup(const char *ssid, const char *pass);
 };
