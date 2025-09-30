@@ -7,12 +7,6 @@ const lmsContainer = document.getElementById("left-motor-speed");
 const rmsContainer = document.getElementById("right-motor-speed");
 const dirContainer = document.getElementById("car-direction");
 const joystickContainer = document.getElementById("joystick-container");
-const rightJoystickContainer = document.getElementById(
-  "right-joystick-container"
-);
-const leftJoystickContainer = document.getElementById(
-  "left-joystick-container"
-);
 const leftGauge = document.getElementById("left-gauge");
 const rightGauge = document.getElementById("right-gauge");
 const websocketStatus = document.getElementById("websocket-status");
@@ -67,7 +61,7 @@ function onClose(event) {
   console.log("Disconnected from WebSocket server");
   isConnected = false;
   setWs(false);
-  // setTimeout(initWebSocket, 5000); // Try to reconnect every 5 seconds
+  setTimeout(initWebSocket, 5000); // Try to reconnect every 5 seconds
 }
 
 function onMessage(event) {

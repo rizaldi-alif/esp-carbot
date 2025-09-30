@@ -1,17 +1,21 @@
 #pragma once
 #include <HCSR04.h>
+#include "AlarmManager.h"
 
 class SensorManager
 {
 public:
-    SensorManager(int trigPin, int echoPin, int leftIR, int rightIR);
+    SensorManager(int trigPin, int echoPin, int leftIR, int rightIR, int buzzerPin, int ledPin);
     void begin();
+    void loop();
     int readDistance();
     int readLeftIR();
     int readRightIR();
 
 private:
     HCSR04 ultrasonic;
+    AlarmManager alarmManager;
+
     static const int SENSOR_SAMPLES = 5;
     static const int MEDIAN_HISTORY = 5;
 

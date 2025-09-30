@@ -2,8 +2,8 @@
 #include <Arduino.h>
 #include <string.h>
 
-SensorManager::SensorManager(int trigPin, int echoPin, int leftIR, int rightIR)
-    : ultrasonic(trigPin, echoPin), distIndex(0), medianIndex(0), leftIRPin(leftIR), rightIRPin(rightIR) {}
+SensorManager::SensorManager(int trigPin, int echoPin, int leftIR, int rightIR, int buzzerPin, int ledPin)
+    : ultrasonic(trigPin, echoPin), distIndex(0), medianIndex(0), leftIRPin(leftIR), rightIRPin(rightIR), alarmManager(buzzerPin, ledPin) {}
 
 void SensorManager::begin()
 {
@@ -61,4 +61,10 @@ int SensorManager::readLeftIR()
 int SensorManager::readRightIR()
 {
     return digitalRead(rightIRPin);
+}
+
+void SensorManager::loop()
+{
+    int distance = readDistance();
+    alarmManager.loop(distance > 0 && distance < 40);
 }

@@ -5,7 +5,7 @@ MotorControls::MotorControls(MotorDriver &rightMotor, MotorDriver &leftMotor)
       _maxSpeed(100), _rangePwm(0), _minPwm(500),
       _currentRightSpeed(0), _currentLeftSpeed(0),
       _targetRightSpeed(0), _targetLeftSpeed(0),
-      _rampStep(5) {
+      _rampStep(3) {
         _rangePwm = (1 << 10) - 1 - _minPwm; // Assuming 10-bit resolution
       }
 
@@ -22,7 +22,7 @@ void MotorControls::setSpeed(int rightSpeed, int leftSpeed)
     _targetRightSpeed = constrain(rightSpeed, -_maxSpeed, _maxSpeed);
     _targetLeftSpeed = constrain(leftSpeed, -_maxSpeed, _maxSpeed);
 }
-
+ 
 void MotorControls::update()
 {
     // Smooth ramp-up/down for right motor
@@ -66,4 +66,6 @@ void MotorControls::update()
 
     _rightMotor.drive(calculatePwm(_currentRightSpeed));
     _leftMotor.drive(calculatePwm(_currentLeftSpeed));
+    Serial.print("Right Speed: "); Serial.print(_currentRightSpeed);
+    Serial.print(" | Left Speed: "); Serial.println(_currentLeftSpeed);
 }

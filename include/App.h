@@ -14,11 +14,9 @@ public:
     void setup();
     void loop();
 
-private:
     WifiManager wifiManager;
     WebServerManager webServerManager;
     SensorManager sensorManager;
-    AlarmManager alarmManager;
     MotorDriver rightMotor;
     MotorDriver leftMotor;
     MotorControls motorControls;
@@ -26,6 +24,13 @@ private:
 
     unsigned long lastSensorTime;
     int sensorDelay;
+
+private:
+    TaskHandle_t motorTaskHandle;
+    TaskHandle_t sensorTaskHandle;
+    TaskHandle_t webServerTaskHandle;
+    TaskHandle_t modeSelectionTaskHandle;
+
     char ssid[32];
     char pass[32];
 };

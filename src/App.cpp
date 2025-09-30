@@ -5,12 +5,56 @@ App::App()
     : rightMotor(16, 17, 22, 5),
       leftMotor(18, 19, 23, 6),
       motorControls(rightMotor, leftMotor),
-      sensorManager(25, 26, 35, 34),
+      sensorManager(25, 26, 35, 34, 27, 2),
       modeSelection(sensorManager, motorControls),
       webServerManager(motorControls, modeSelection),
-      alarmManager(27, 2),
       lastSensorTime(0),
       sensorDelay(60), ssid("Dev-v3.0"), pass("12345678") {}
+
+void motorTask(void *pvParameters)
+{
+    App *app = static_cast<App *>(pvParameters);
+    for (;;)
+    {
+        app->motorControls.update();
+        vTaskDelay(10 / portTICK_PERIOD_MS);
+    }
+}
+
+void sensorTask(void *pvParameters)
+{
+    App *app = static_cast<App *>(pvParameters);
+    for (;;)
+    {
+        unsigned long currentMillis = millis();
+        if (currentMillis - app->lastSensorTime >= app->sensorDelay)
+        {
+            app->sensorManager.loop();
+            app->lastSensorTime = currentMillis;
+        }
+        vTaskDelay(10 / portTICK_PERIOD_MS);
+    }
+}
+
+void webServerTask(void *pvParameters)
+{
+    App *app = static_cast<App *>(pvParameters);
+    for (;;)
+    {
+        app->webServerManager.loop();
+        vTaskDelay(10 / portTICK_PERIOD_MS);
+    }
+}
+
+void modeSelectionTask(void *pvParameters)
+{
+    App *app = static_cast<App *>(pvParameters);
+    for (;;)
+    {
+        app->modeSelection.loop();
+        vTaskDelay(10 / portTICK_PERIOD_MS);
+    }
+}
 
 void App::setup()
 {
@@ -50,18 +94,15 @@ void App::setup()
     noTone(27);
 
     Serial.println("Setup complete");
+
+    xTaskCreatePinnedToCore(motorTask, "Motor Task", 4096, this, 1, &motorTaskHandle, 1);
+    xTaskCreatePinnedToCore(sensorTask, "Sensor Task", 4096, this, 1, &sensorTaskHandle, 1);
+    xTaskCreatePinnedToCore(webServerTask, "WebServer Task", 8192, this, 1, &webServerTaskHandle, 0);
+    xTaskCreatePinnedToCore(modeSelectionTask, "Mode Selection Task", 4096, this, 1, &modeSelectionTaskHandle, 1);
 }
 
 void App::loop()
 {
-    if ((millis() - lastSensorTime) > sensorDelay)
-    {
-        lastSensorTime = millis();
-        int distance = sensorManager.readDistance();
-        alarmManager.loop(distance > 0 && distance < 40);
-    }
-
-    motorControls.update();
     webServerManager.loop();
     modeSelection.loop();
 }
