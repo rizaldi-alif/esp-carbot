@@ -46,17 +46,7 @@ void webServerTask(void *pvParameters)
     }
 }
 
-void modeSelectionTask(void *pvParameters)
-{
-    App *app = static_cast<App *>(pvParameters);
-    for (;;)
-    {
-        app->modeSelection.loop();
-        vTaskDelay(10 / portTICK_PERIOD_MS);
-    }
-}
-
-void App::setup()
+void App::begin()
 {
     Serial.begin(115200);
 
@@ -98,11 +88,5 @@ void App::setup()
     xTaskCreatePinnedToCore(motorTask, "Motor Task", 4096, this, 1, &motorTaskHandle, 1);
     xTaskCreatePinnedToCore(sensorTask, "Sensor Task", 4096, this, 1, &sensorTaskHandle, 1);
     xTaskCreatePinnedToCore(webServerTask, "WebServer Task", 8192, this, 1, &webServerTaskHandle, 0);
-    xTaskCreatePinnedToCore(modeSelectionTask, "Mode Selection Task", 4096, this, 1, &modeSelectionTaskHandle, 1);
-}
-
-void App::loop()
-{
-    webServerManager.loop();
     modeSelection.loop();
 }

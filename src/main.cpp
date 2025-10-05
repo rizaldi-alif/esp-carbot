@@ -5,10 +5,9 @@ App app;
 
 void setup()
 {
-  app.setup();
+  app.begin();
 }
 
 void loop()
 {
-  app.loop();
 }

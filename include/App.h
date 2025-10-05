@@ -11,8 +11,7 @@ class App
 {
 public:
     App();
-    void setup();
-    void loop();
+    void begin();
 
     WifiManager wifiManager;
     WebServerManager webServerManager;
@@ -29,7 +28,6 @@ private:
     TaskHandle_t motorTaskHandle;
     TaskHandle_t sensorTaskHandle;
     TaskHandle_t webServerTaskHandle;
-    TaskHandle_t modeSelectionTaskHandle;
 
     char ssid[32];
     char pass[32];
