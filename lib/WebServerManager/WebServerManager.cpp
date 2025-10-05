@@ -16,13 +16,15 @@ void WebServerManager::begin()
     server.serveStatic("/", SPIFFS, "/");
     server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
               {
-        if (SPIFFS.exists("/index.html")) {
-            request->send(SPIFFS, "/index.html", "text/html");
-        } else {
-            request->send(404, "text/plain", "File not found");
-        } });
+            if (SPIFFS.exists("/index.html")) {
+                request->send(SPIFFS, "/index.html", "text/html");
+            } else {
+                request->send(404, "text/plain", "File not found");
+            } });
 
     server.begin();
+    // Jika mau autentikasi, pakai callback
+    Serial.println("Web server started");
 }
 
 void WebServerManager::sendSpeed(int rightMotorSpeed, int leftMotorSpeed)
